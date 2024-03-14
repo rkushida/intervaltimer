@@ -1,4 +1,4 @@
-import { Time } from "./typs";
+import type { Time } from "./typs";
 
 export const initialWork: Time = {
     minute: 0,

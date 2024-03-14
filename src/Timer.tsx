@@ -27,8 +27,8 @@ function Timer({set, work, rest, reset, restart}: Props) {
                 <p>Time: {time}</p>
                 <p>Stage: {status.stage}</p>
             </div>
-            {finished ? <button onClick={restart}>Restart</button> : <button onClick={toggle}>{pauseText}</button>}
-            <button onClick={_reset}>Reset</button>
+            {finished ? <button type="button" onClick={restart}>Restart</button> : <button type="button" onClick={toggle}>{pauseText}</button>}
+            <button type="button" onClick={_reset}>Reset</button>
         </div>
     );
 }

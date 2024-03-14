@@ -1,5 +1,5 @@
-import React from "react";
-import { Time } from "./typs";
+import type React from "react";
+import type { Time } from "./typs";
 import { minSecToMs, msToMinSec } from "./utils";
 
 type Props = {
@@ -45,8 +45,8 @@ function TimeInput({label, time, setTime}: Props) {
     return (
         <div>
             <p>{label}</p>
-            <input type="number" value={time.minute} onBlur={handleBlurMinute} onChange={handleChangeMinute}></input>
-            <input type="number" value={time.second} onBlur={handleBlurSecond} onChange={handleChangeSecond}></input>
+            <input type="number" value={time.minute} onBlur={handleBlurMinute} onChange={handleChangeMinute} />
+            <input type="number" value={time.second} onBlur={handleBlurSecond} onChange={handleChangeSecond} />
         </div>
     );
 }

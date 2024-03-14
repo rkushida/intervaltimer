@@ -13,7 +13,7 @@ function NumberInput({label, value, setValue}: Props) {
     return (
         <div>
             <p>{label}</p>
-            <input type="number" value={value} onChange={handleChange}></input>
+            <input type="number" value={value} onChange={handleChange} />
         </div>
     );
 }

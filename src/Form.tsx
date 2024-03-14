@@ -1,6 +1,6 @@
 import NumberInput from "./NumberInput";
 import TimeInput from "./TimeInput";
-import { Time } from "./typs";
+import type { Time } from "./typs";
 
 type Props = {
     set: number;
@@ -18,7 +18,7 @@ function Form({set, setSet, work, setWork, rest, setRest, start}: Props) {
             <NumberInput label="Sets" value={set} setValue={setSet} />
             <TimeInput label="Work" time={work} setTime={setWork} />
             <TimeInput label="Rest" time={rest} setTime={setRest} />
-            <button onClick={start}>Start</button>
+            <button type="button" onClick={start}>Start</button>
         </div>
     );
 }

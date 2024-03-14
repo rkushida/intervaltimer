@@ -26,7 +26,7 @@ function useTimerWithSound(set: number, work: number, rest: number) {
     const toggle = useCallback(() => {
         _toggle();
         isPaused ? play() : pause();
-    }, [_toggle, play, pause]);
+    }, [isPaused, _toggle, play, pause]);
 
     return [status, isPaused, toggle, pause] as const;
 }
