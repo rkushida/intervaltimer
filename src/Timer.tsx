@@ -12,7 +12,7 @@ type Props = {
 function Timer({set, work, rest, reset, restart}: Props) {
     const [status, isPaused, toggle, pause] = useTimerWithSound(set, work, rest);
 
-    const isHidden = status.stage === 'finished';
+    const finished = status.stage === 'finished';
     const pauseText = isPaused ? 'Start' : 'Pause';
     const time = formatMinSec(...msToMinSec(status.time));
     const _reset = () => {
@@ -21,14 +21,15 @@ function Timer({set, work, rest, reset, restart}: Props) {
     }
 
     return (
-        <>
-            <p>Sets: {status.set}</p>
-            <p>Time: {time}</p>
-            <p>Stage: {status.stage}</p>
-            <button onClick={toggle} hidden={isHidden}>{pauseText}</button>
-            <button onClick={restart} hidden={!isHidden}>Restart</button>
+        <div>
+            <div>
+                <p>Sets: {status.set}</p>
+                <p>Time: {time}</p>
+                <p>Stage: {status.stage}</p>
+            </div>
+            {finished ? <button onClick={restart}>Restart</button> : <button onClick={toggle}>{pauseText}</button>}
             <button onClick={_reset}>Reset</button>
-        </>
+        </div>
     );
 }
 
