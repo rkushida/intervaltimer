@@ -1,4 +1,4 @@
-import { formatMinSec, msToMinSec } from "./utils";
+import { formatMinSec, sec2MinSec, ms2Sec } from "./utils";
 import useTimerWithSound from "./useTimerWithSound";
 
 type Props = {
@@ -10,11 +10,15 @@ type Props = {
 };
 
 function Timer({ set, work, rest, reset, restart }: Props) {
-	const [status, isPaused, toggle, pause] = useTimerWithSound(set, work, rest);
+	const [status, isPaused, toggle, pause] = useTimerWithSound(
+		set,
+		work * 1000,
+		rest * 1000,
+	);
 
-	const finished = status.stage === "finished";
+	const isFinished = status.stage === "finished";
 	const pauseText = isPaused ? "Start" : "Pause";
-	const time = formatMinSec(...msToMinSec(status.time));
+	const time = formatMinSec(...sec2MinSec(ms2Sec(status.time)));
 	const _reset = () => {
 		reset();
 		pause();
@@ -27,8 +31,8 @@ function Timer({ set, work, rest, reset, restart }: Props) {
 				<p>Time: {time}</p>
 				<p>Stage: {status.stage}</p>
 			</div>
-			<button type="button" onClick={finished ? restart : toggle}>
-				{finished ? "Restart" : pauseText}
+			<button type="button" onClick={isFinished ? restart : toggle}>
+				{isFinished ? "Restart" : pauseText}
 			</button>
 			<button type="button" onClick={_reset}>
 				Reset

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { preparation } from "./consts";
+import { initialPreparation } from "./consts";
 
 type Status = {
 	set: number;
@@ -10,6 +10,7 @@ type Status = {
 function useTimer(set: number, work: number, rest: number) {
 	const interval = 100;
 	const intervalIdRef = useRef(0);
+	const preparation = initialPreparation * 1000;
 	const [isPaused, setIsPaused] = useState(false);
 	const [status, setStatus] = useState<Status>({
 		set,

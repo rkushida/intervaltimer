@@ -1,9 +1,10 @@
 import { useCallback, useEffect } from "react";
 import useTimer from "./useTimer";
 import useSound from "./useSound";
-import { preparation } from "./consts";
+import { initialPreparation } from "./consts";
 
 function useTimerWithSound(set: number, work: number, rest: number) {
+	const preparation = initialPreparation * 1000;
 	const [status, isPaused, _toggle] = useTimer(set, work, rest);
 	const [play, pause] = useSound();
 
@@ -21,7 +22,7 @@ function useTimerWithSound(set: number, work: number, rest: number) {
 				play("pii", 0);
 			}
 		}
-	}, [status.time, status.stage, rest, work, play]);
+	}, [status.time, status.stage, rest, work, preparation, play]);
 
 	const toggle = useCallback(() => {
 		_toggle();

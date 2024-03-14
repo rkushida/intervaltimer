@@ -1,44 +1,40 @@
 import type React from "react";
-import type { Time } from "./typs";
-import { minSecToMs, msToMinSec } from "./utils";
+import { useState } from "react";
+import { sec2MinSec, minSec2Sec } from "./utils";
 
 type Props = {
 	label: string;
-	time: Time;
-	setTime: React.Dispatch<React.SetStateAction<Time>>;
+	time: number;
+	setTime: React.Dispatch<React.SetStateAction<number>>;
 };
 
 function TimeInput({ label, time, setTime }: Props) {
+	const [min, sec] = sec2MinSec(time);
+	const [minutes, setMinutes] = useState(String(min));
+	const [seconds, setSeconds] = useState(String(sec));
+
 	function handleChangeMinute(e: React.ChangeEvent<HTMLInputElement>) {
-		setTime(() => ({
-			...time,
-			minute: Number(e.target.value),
-		}));
+		setMinutes(e.target.value);
 	}
 
 	function handleBlurMinute(e: React.FocusEvent<HTMLInputElement, Element>) {
-		const ms = minSecToMs(Number(e.target.value), time.second);
-		const [minutes, seconds] = msToMinSec(ms);
-		setTime(() => ({
-			minute: minutes,
-			second: seconds,
-		}));
+		const time = minSec2Sec(Number(e.target.value), Number(seconds));
+		const [min, sec] = sec2MinSec(time);
+		setTime(time);
+		setMinutes(String(min));
+		setSeconds(String(sec));
 	}
 
 	function handleChangeSecond(e: React.ChangeEvent<HTMLInputElement>) {
-		setTime(() => ({
-			...time,
-			second: Number(e.target.value),
-		}));
+		setSeconds(e.target.value);
 	}
 
 	function handleBlurSecond(e: React.FocusEvent<HTMLInputElement, Element>) {
-		const ms = minSecToMs(time.minute, Number(e.target.value));
-		const [minutes, seconds] = msToMinSec(ms);
-		setTime(() => ({
-			minute: minutes,
-			second: seconds,
-		}));
+		const time = minSec2Sec(Number(minutes), Number(e.target.value));
+		const [min, sec] = sec2MinSec(time);
+		setTime(time);
+		setMinutes(String(min));
+		setSeconds(String(sec));
 	}
 
 	return (
@@ -46,13 +42,13 @@ function TimeInput({ label, time, setTime }: Props) {
 			<p>{label}</p>
 			<input
 				type="number"
-				value={time.minute}
+				value={minutes}
 				onBlur={handleBlurMinute}
 				onChange={handleChangeMinute}
 			/>
 			<input
 				type="number"
-				value={time.second}
+				value={seconds}
 				onBlur={handleBlurSecond}
 				onChange={handleChangeSecond}
 			/>

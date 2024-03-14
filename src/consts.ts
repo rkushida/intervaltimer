@@ -1,13 +1,7 @@
-import type { Time } from "./typs";
+export const initialPreparation = 5;
 
-export const initialWork: Time = {
-	minute: 0,
-	second: 10,
-};
+export const initialWork = 10;
 
-export const initialRest: Time = {
-	minute: 0,
-	second: 5,
-};
+export const initialRest = 5;
 
-export const preparation = 5 * 1000;
+export const initialSet = 3;
