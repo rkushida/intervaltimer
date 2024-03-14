@@ -1,12 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { preparation } from "./consts";
 
 type Status = {
     set: number;
     time: number;
     stage: 'prepare' | 'work' | 'rest' | 'finished';
 };
-
-const preparation = 5 * 1000;
 
 function useTimer(set: number, work: number, rest: number) {
     const interval = 100;
@@ -18,16 +17,7 @@ function useTimer(set: number, work: number, rest: number) {
         stage: 'prepare',
     });
 
-    useEffect(() => {
-        setTimer();
-        return clearTimer;
-    }, [intervalIdRef, status]);
-
-    useEffect(() => {
-        isPaused ? setTimer() : clearTimer();
-    }, [isPaused]);
-
-    function statusUpdater(status: Status) {
+    const statusUpdater = useCallback((status: Status) => {
         const newStatus = {...status};
         newStatus.time = status.time - interval;
         if (newStatus.time === 0) {
@@ -54,22 +44,28 @@ function useTimer(set: number, work: number, rest: number) {
             }
         }
         return newStatus;
-    }
+    }, [rest, work]);
 
-    function setTimer() {
+    const clearTimer = useCallback(() => {
+        clearInterval(intervalIdRef.current);
+        intervalIdRef.current = 0;
+    }, []);
+
+    const setTimer = useCallback(() => {
         intervalIdRef.current = setInterval(() => {
             status.stage === 'finished' ? clearTimer() : setStatus(statusUpdater);
         }, interval);
-    }
+    }, [status.stage, clearTimer, statusUpdater]);
 
-    function clearTimer() {
-        clearInterval(intervalIdRef.current);
-        intervalIdRef.current = 0;
-    }
-
-    function toggle() {
+    const toggle = useCallback(() => {
         setIsPaused(() => !isPaused);
-    }
+        isPaused ? setTimer() : clearTimer();
+    }, [isPaused, setTimer, clearTimer]);
+
+    useEffect(() => {
+        setTimer();
+        return clearTimer;
+    }, [setTimer, clearTimer]);
 
     return [status, isPaused, toggle] as const;
 }

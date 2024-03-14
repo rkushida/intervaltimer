@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 type Src = 'pi' | 'pii';
 
@@ -14,17 +14,17 @@ const audios: Audios = {
 function useSound() {
     const [nowPlaying, setNowPlaying] = useState<Src>('pii');
 
-    function play(src: Src = nowPlaying, time?: number) {
+    const play = useCallback((src: Src = nowPlaying, time?: number) => {
         if (time !== undefined) {
             audios[src].currentTime = 0;
         }
         audios[src].play();
         setNowPlaying(() => src);
-    }
+    }, [nowPlaying]);
 
-    function pause(src: Src = nowPlaying) {
+    const pause = useCallback((src: Src = nowPlaying) => {
         audios[src].pause();
-    }
+    }, [nowPlaying]);
 
     return [play, pause] as const;
 }

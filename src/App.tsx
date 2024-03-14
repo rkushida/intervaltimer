@@ -32,7 +32,7 @@ function App() {
         <div>
             {
                 showTimer ?
-                <Timer set={set} work={workMs} rest={restMs} reset={toggleShow} /> :
+                <Timer set={set} work={workMs} rest={restMs} _reset={toggleShow} /> :
                 <div>
                     <NumberInput label="Sets" value={set} setValue={setSet} />
                     <TimeInput label="Work" time={work} setTime={setWork} />
