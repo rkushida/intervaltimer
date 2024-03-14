@@ -1,28 +1,22 @@
 import { useState } from 'react';
 import Timer from './Timer';
-import NumberInput from './NumberInput';
-import TimeInput from './TimeInput';
 import { minSecToMs } from './utils';
-import { Time } from "./typs";
-
-const initialWork: Time = {
-    minute: 0,
-    second: 10,
-};
-
-const initialRest: Time = {
-    minute: 0,
-    second: 5,
-};
+import Form from './Form';
+import { initialWork, initialRest } from './consts';
 
 function App() {
     const [set, setSet] = useState(3);
     const [work, setWork] = useState(initialWork);
     const [rest, setRest] = useState(initialRest);
+    const [key, setKey] = useState(Date.now());
     const [showTimer, setShowTimer] = useState(false);
 
     function toggleShow() {
         setShowTimer(() => !showTimer);
+    }
+
+    function updateKey() {
+        setKey(Date.now());
     }
 
     const workMs = minSecToMs(work.minute, work.second);
@@ -32,13 +26,8 @@ function App() {
         <div>
             {
                 showTimer ?
-                <Timer set={set} work={workMs} rest={restMs} _reset={toggleShow} /> :
-                <div>
-                    <NumberInput label="Sets" value={set} setValue={setSet} />
-                    <TimeInput label="Work" time={work} setTime={setWork} />
-                    <TimeInput label="Rest" time={rest} setTime={setRest} />
-                    <button onClick={toggleShow}>Start</button>
-                </div>
+                <Timer key={key} set={set} work={workMs} rest={restMs} reset={toggleShow} restart={updateKey} /> :
+                <Form  set={set} setSet={setSet} work={work} setWork={setWork} rest={rest} setRest={setRest} start={toggleShow}/>
             }
         </div>
     );

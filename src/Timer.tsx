@@ -5,17 +5,18 @@ type Props = {
     set: number;
     work: number;
     rest: number;
-    _reset: () => void;
+    reset: () => void;
+    restart: () => void;
 };
 
-function Timer({set, work, rest, _reset}: Props) {
+function Timer({set, work, rest, reset, restart}: Props) {
     const [status, isPaused, toggle, pause] = useTimerWithSound(set, work, rest);
 
     const isHidden = status.stage === 'finished';
     const pauseText = isPaused ? 'Start' : 'Pause';
     const time = formatMinSec(...msToMinSec(status.time));
-    const reset = () => {
-        _reset();
+    const _reset = () => {
+        reset();
         pause();
     }
 
@@ -25,7 +26,8 @@ function Timer({set, work, rest, _reset}: Props) {
             <p>Time: {time}</p>
             <p>Stage: {status.stage}</p>
             <button onClick={toggle} hidden={isHidden}>{pauseText}</button>
-            <button onClick={reset}>Reset</button>
+            <button onClick={restart} hidden={!isHidden}>Restart</button>
+            <button onClick={_reset}>Reset</button>
         </>
     );
 }
