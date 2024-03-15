@@ -1,5 +1,5 @@
-import NumberInput from "./NumberInput";
-import TimeInput from "./TimeInput";
+import NumberInput from "./NumberField";
+import TimeInput from "./TimeField";
 
 type Props = {
 	set: string;

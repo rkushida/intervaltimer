@@ -1,5 +1,5 @@
-import { formatMinSec, sec2MinSec, ms2Sec } from "./utils";
-import useTimerWithSound from "./useTimerWithSound";
+import { formatMinSec, sec2MinSec, ms2Sec } from "../utils";
+import useTimerWithSound from "../hooks/useTimerWithSound";
 
 type Props = {
 	set: number;

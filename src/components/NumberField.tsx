@@ -3,11 +3,11 @@ import { useEffect } from "react";
 type Props = {
 	label: string;
 	value: string;
-	setValue: React.Dispatch<React.SetStateAction<string>>;
 	min: number;
+	setValue: React.Dispatch<React.SetStateAction<string>>;
 };
 
-function NumberInput({ label, value, setValue, min }: Props) {
+function NumberField({ label, value, min, setValue }: Props) {
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setValue(e.target.value);
 	};
@@ -42,4 +42,4 @@ function NumberInput({ label, value, setValue, min }: Props) {
 	);
 }
 
-export default NumberInput;
+export default NumberField;

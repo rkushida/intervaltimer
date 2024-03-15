@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
 import useTimer from "./useTimer";
 import useSound from "./useSound";
-import { initialPreparation } from "./consts";
+import { initialPreparation } from "../constants";
 
 function useTimerWithSound(set: number, work: number, rest: number) {
 	const preparation = initialPreparation * 1000;

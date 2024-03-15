@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { initialPreparation } from "./consts";
+import { initialPreparation } from "../constants";
 
 type Status = {
 	set: number;
