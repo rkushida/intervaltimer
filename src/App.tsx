@@ -4,23 +4,28 @@ import Form from "./Form";
 import { initialSet, initialWork, initialRest } from "./consts";
 
 function App() {
-	const [set, setSet] = useState(initialSet);
-	const [work, setWork] = useState(initialWork);
-	const [rest, setRest] = useState(initialRest);
+	const [set, setSet] = useState(String(initialSet));
+	const [work, setWork] = useState(String(initialWork));
+	const [rest, setRest] = useState(String(initialRest));
 	const [key, setKey] = useState(Date.now());
 	const [showTimer, setShowTimer] = useState(false);
 
-	const toggleShow = () => setShowTimer(() => !showTimer);
-	const updateKey = () => setKey(Date.now());
+	const toggleShow = () => {
+		setShowTimer(() => !showTimer);
+	};
+
+	const updateKey = () => {
+		setKey(Date.now());
+	};
 
 	return (
 		<div>
 			{showTimer ? (
 				<Timer
 					key={key}
-					set={set}
-					work={work}
-					rest={rest}
+					set={Number(set)}
+					work={Number(work) * 1000}
+					rest={Number(rest) * 1000}
 					reset={toggleShow}
 					restart={updateKey}
 				/>

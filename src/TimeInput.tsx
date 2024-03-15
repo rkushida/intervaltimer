@@ -1,41 +1,48 @@
-import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { sec2MinSec, minSec2Sec } from "./utils";
 
 type Props = {
 	label: string;
-	time: number;
-	setTime: React.Dispatch<React.SetStateAction<number>>;
+	time: string;
+	min: number;
+	setTime: React.Dispatch<React.SetStateAction<string>>;
 };
 
-function TimeInput({ label, time, setTime }: Props) {
-	const [min, sec] = sec2MinSec(time);
-	const [minutes, setMinutes] = useState(String(min));
-	const [seconds, setSeconds] = useState(String(sec));
+function TimeInput({ label, time, min, setTime }: Props) {
+	const [_minutes, _seconds] = sec2MinSec(Number(time));
+	const [minutes, setMinutes] = useState(String(_minutes));
+	const [seconds, setSeconds] = useState(String(_seconds));
 
-	function handleChangeMinute(e: React.ChangeEvent<HTMLInputElement>) {
+	const handleChangeMinute = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setMinutes(e.target.value);
-	}
+	};
 
-	function handleBlurMinute(e: React.FocusEvent<HTMLInputElement, Element>) {
-		const time = minSec2Sec(Number(e.target.value), Number(seconds));
-		const [min, sec] = sec2MinSec(time);
-		setTime(time);
-		setMinutes(String(min));
-		setSeconds(String(sec));
-	}
-
-	function handleChangeSecond(e: React.ChangeEvent<HTMLInputElement>) {
+	const handleChangeSecond = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSeconds(e.target.value);
-	}
+	};
 
-	function handleBlurSecond(e: React.FocusEvent<HTMLInputElement, Element>) {
-		const time = minSec2Sec(Number(minutes), Number(e.target.value));
-		const [min, sec] = sec2MinSec(time);
-		setTime(time);
-		setMinutes(String(min));
-		setSeconds(String(sec));
-	}
+	const handleBlur = () => {
+		let timeNum = minSec2Sec(Number(minutes), Number(seconds));
+		if (timeNum < min) {
+			timeNum = min;
+		}
+		const timeStr = String(timeNum);
+		localStorage.setItem(label, timeStr);
+		setTime(timeStr);
+		const [_minutes, _seconds] = sec2MinSec(Number(timeStr));
+		setMinutes(String(_minutes));
+		setSeconds(String(_seconds));
+	};
+
+	useEffect(() => {
+		const timeStr = localStorage.getItem(label);
+		if (timeStr !== null) {
+			setTime(timeStr);
+			const [_minutes, _seconds] = sec2MinSec(Number(timeStr));
+			setMinutes(String(_minutes));
+			setSeconds(String(_seconds));
+		}
+	}, [label, setTime]);
 
 	return (
 		<div>
@@ -43,13 +50,13 @@ function TimeInput({ label, time, setTime }: Props) {
 			<input
 				type="number"
 				value={minutes}
-				onBlur={handleBlurMinute}
+				onBlur={handleBlur}
 				onChange={handleChangeMinute}
 			/>
 			<input
 				type="number"
 				value={seconds}
-				onBlur={handleBlurSecond}
+				onBlur={handleBlur}
 				onChange={handleChangeSecond}
 			/>
 		</div>

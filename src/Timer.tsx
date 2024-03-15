@@ -10,11 +10,7 @@ type Props = {
 };
 
 function Timer({ set, work, rest, reset, restart }: Props) {
-	const [status, isPaused, toggle, pause] = useTimerWithSound(
-		set,
-		work * 1000,
-		rest * 1000,
-	);
+	const [status, isPaused, toggle, pause] = useTimerWithSound(set, work, rest);
 
 	const isFinished = status.stage === "finished";
 	const pauseText = isPaused ? "Start" : "Pause";
