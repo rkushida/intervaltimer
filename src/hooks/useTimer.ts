@@ -14,8 +14,8 @@ function useTimer(set: number, work: number, rest: number) {
   const [isPaused, setIsPaused] = useState(false);
   const [status, setStatus] = useState<Status>({
     set,
-    time: preparation,
-    stage: "prepare",
+    time: preparation === 0 ? work : preparation,
+    stage: preparation === 0 ? "work" : "prepare",
   });
 
   const statusUpdater = useCallback(
@@ -33,6 +33,9 @@ function useTimer(set: number, work: number, rest: number) {
               newStatus.set = 0;
               newStatus.time = 0;
               newStatus.stage = "finished";
+            } else if (rest === 0) {
+              newStatus.set = status.set - 1;
+              newStatus.time = work;
             } else {
               newStatus.time = rest;
               newStatus.stage = "rest";

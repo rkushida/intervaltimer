@@ -1,33 +1,34 @@
 import { useEffect } from "react";
+import { clamp } from "../utils";
 
 type Props = {
   label: string;
   value: string;
-  min: number;
   setValue: React.Dispatch<React.SetStateAction<string>>;
+  min: number;
+  max: number;
 };
 
-function NumberField({ label, value, min, setValue }: Props) {
+function NumberField({ label, value, setValue, min, max }: Props) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
   const handleBlur = () => {
-    let valNum = Number(value);
-    if (value === "" || valNum < min) {
-      valNum = min;
-    }
-    const valStr = String(valNum);
-    localStorage.setItem(label, valStr);
-    setValue(valStr);
+    const newValue = String(
+      value === "" ? min : clamp(Number(value), min, max),
+    );
+    setValue(newValue);
+    localStorage.setItem(label, newValue);
   };
 
   useEffect(() => {
-    const valStr = localStorage.getItem(label);
-    if (valStr !== null) {
-      setValue(valStr);
+    const lsValue = localStorage.getItem(label);
+    if (lsValue !== null) {
+      const newValue = String(clamp(Number(lsValue), min, max));
+      setValue(newValue);
     }
-  }, [label, setValue]);
+  }, [label, setValue, min, max]);
 
   return (
     <div>

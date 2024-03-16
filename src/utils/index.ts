@@ -19,3 +19,7 @@ export function formatMinSec(minutes: number, seconds: number) {
   const sec = String(seconds).padStart(2, "0");
   return `${min}:${sec}`;
 }
+
+export function clamp(x: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, x));
+}

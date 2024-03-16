@@ -3,20 +3,38 @@ import TimeInput from "./TimeField";
 
 type Props = {
   set: string;
-  work: string;
-  rest: string;
   setSet: React.Dispatch<React.SetStateAction<string>>;
+  work: string;
   setWork: React.Dispatch<React.SetStateAction<string>>;
+  rest: string;
   setRest: React.Dispatch<React.SetStateAction<string>>;
   start: () => void;
 };
 
-function Form({ set, work, rest, setSet, setWork, setRest, start }: Props) {
+function Form({ set, setSet, work, setWork, rest, setRest, start }: Props) {
   return (
     <div>
-      <NumberInput label="Sets" value={set} min={1} setValue={setSet} />
-      <TimeInput label="Work" time={work} min={1} setTime={setWork} />
-      <TimeInput label="Rest" time={rest} min={0} setTime={setRest} />
+      <NumberInput
+        label="Sets"
+        value={set}
+        setValue={setSet}
+        min={1}
+        max={999}
+      />
+      <TimeInput
+        label="Work"
+        time={work}
+        setTime={setWork}
+        min={1}
+        max={60 * 99 + 59}
+      />
+      <TimeInput
+        label="Rest"
+        time={rest}
+        setTime={setRest}
+        min={0}
+        max={99 * 60 + 59}
+      />
       <button type="button" onClick={start}>
         Start
       </button>

@@ -8,10 +8,10 @@ function IntervalTimer() {
   const [work, setWork] = useState(String(initialWork));
   const [rest, setRest] = useState(String(initialRest));
   const [key, setKey] = useState(Date.now());
-  const [showTimer, setShowTimer] = useState(false);
+  const [isActive, setIsActive] = useState(false);
 
-  const toggleShowTimer = () => {
-    setShowTimer(() => !showTimer);
+  const toggleIsActive = () => {
+    setIsActive(() => !isActive);
   };
 
   const updateKey = () => {
@@ -20,13 +20,13 @@ function IntervalTimer() {
 
   return (
     <div>
-      {showTimer ? (
+      {isActive ? (
         <Timer
           key={key}
           set={Number(set)}
           work={Number(work) * 1000}
           rest={Number(rest) * 1000}
-          reset={toggleShowTimer}
+          reset={toggleIsActive}
           restart={updateKey}
         />
       ) : (
@@ -37,7 +37,7 @@ function IntervalTimer() {
           setWork={setWork}
           rest={rest}
           setRest={setRest}
-          start={toggleShowTimer}
+          start={toggleIsActive}
         />
       )}
     </div>
